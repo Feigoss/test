@@ -281,7 +281,6 @@ public class DemoController {
 
         String ffmpegExecutablePath = "curl";
         String outputFilePath = "/Users/D0L1/test/2.mp4";
-
         ProcessWrapper processWrapper = new ProcessWrapper(ffmpegExecutablePath);
         processWrapper.addArgument("127.0.0.1:9999/test");
         processWrapper.addArgument(inputFilePath);
