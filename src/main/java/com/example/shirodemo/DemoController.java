@@ -8,14 +8,18 @@ import org.apache.bcel.classfile.ConstantPool;
 import org.apache.bcel.generic.ConstantPoolGen;
 import org.apache.sshd.common.session.SessionContext;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.codehaus.plexus.archiver.zip.ZipUnArchiver;
 //import org.apache.hadoop.util.Shell.ShellCommandExecutor;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.ho.yaml.Yaml;
+import org.ini4j.BasicOptionMap;
 
 import com.github.pagehelper.PageHelper;
 import com.jd.sec_api.SecApi;
 
+import graphql.parser.Parser;
 import liquibase.changelog.ChangeLogParameters;
 import liquibase.parser.core.xml.XMLChangeLogSAXParser;
 import liquibase.sdk.resource.MockResourceAccessor;
@@ -156,7 +160,7 @@ public class DemoController {
     }
 
     @RequestMapping(path = "/CVE-2022-45047")
-    public String cve_2024_45047(SessionContext  value) throws FileNotFoundException, IOException {
+    public String cve_2022_45047(SessionContext  value) throws FileNotFoundException, IOException {
    
 
         SimpleGeneratorHostKeyProvider kp = new SimpleGeneratorHostKeyProvider();
@@ -165,13 +169,36 @@ public class DemoController {
     }
 
     @RequestMapping(path = "CVE-2022-42920")
-    public String cve_2024_42920(ConstantPool  value) throws FileNotFoundException, IOException {
+    public String cve_2022_42920(ConstantPool  value) throws FileNotFoundException, IOException {
    
 
         new ConstantPoolGen(value);
         return "ok";
     }
 
+    @RequestMapping(path = "CVE-2022-40150")
+    public String cve_2022_40150(String  value) throws FileNotFoundException, IOException, JSONException {
+        new JSONObject(value);
+        return "ok";
+    }
+
+    @RequestMapping(path = "CVE-2022-41404")
+    public String cve_2022_41404(String  value) throws FileNotFoundException, IOException {
+   
+
+        BasicOptionMap bm = new BasicOptionMap();
+        bm.fetch(value);
+        return "ok";
+    }
+
+    @RequestMapping(path = "CVE-2022-37734")
+    public String cve_2022_37734(String  value) throws FileNotFoundException, IOException {
+   
+
+        Parser parser = new Parser();
+        parser.parse(value);
+        return "ok";
+    }
 
     @RequestMapping(path = "/CVE-2022-0265")
     public String cve_2022_0265(String value) throws FileNotFoundException, IOException {
