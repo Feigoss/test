@@ -4,6 +4,8 @@ import com.cronutils.model.CronType;
 import com.cronutils.validation.Cron;
 import com.github.pagehelper.Page;
 
+import org.apache.bcel.classfile.ConstantPool;
+import org.apache.bcel.generic.ConstantPoolGen;
 import org.apache.sshd.common.session.SessionContext;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.codehaus.plexus.archiver.zip.ZipUnArchiver;
@@ -159,6 +161,14 @@ public class DemoController {
 
         SimpleGeneratorHostKeyProvider kp = new SimpleGeneratorHostKeyProvider();
         kp.loadKeys(value);
+        return "ok";
+    }
+
+    @RequestMapping(path = "CVE-2022-42920")
+    public String cve_2024_42920(ConstantPool  value) throws FileNotFoundException, IOException {
+   
+
+        new ConstantPoolGen(value);
         return "ok";
     }
 
