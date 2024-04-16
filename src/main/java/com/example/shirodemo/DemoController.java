@@ -4,6 +4,8 @@ import com.cronutils.model.CronType;
 import com.cronutils.validation.Cron;
 import com.github.pagehelper.Page;
 
+import org.apache.sshd.common.session.SessionContext;
+import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.codehaus.plexus.archiver.zip.ZipUnArchiver;
 //import org.apache.hadoop.util.Shell.ShellCommandExecutor;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -150,6 +152,16 @@ public class DemoController {
         UriComponentsBuilder.fromUriString(value);
         return "ok";
     }
+
+    @RequestMapping(path = "/CVE-2022-45047")
+    public String cve_2024_22243(SessionContext  value) throws FileNotFoundException, IOException {
+   
+
+        SimpleGeneratorHostKeyProvider kp = new SimpleGeneratorHostKeyProvider();
+        kp.loadKeys(value);
+        return "ok";
+    }
+
 
     @RequestMapping(path = "/CVE-2022-0265")
     public String cve_2022_0265(String value) throws FileNotFoundException, IOException {
