@@ -154,7 +154,7 @@ public class DemoController {
     }
 
     @RequestMapping(path = "/CVE-2022-45047")
-    public String cve_2024_22243(SessionContext  value) throws FileNotFoundException, IOException {
+    public String cve_2024_45047(SessionContext  value) throws FileNotFoundException, IOException {
    
 
         SimpleGeneratorHostKeyProvider kp = new SimpleGeneratorHostKeyProvider();
