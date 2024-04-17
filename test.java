@@ -8,3 +8,4 @@ remoteServiceCaller
 
 isFullyAuthenticated
 isFullyAuthenticated
+一品多商
