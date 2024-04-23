@@ -1,11 +1,13 @@
 package com.example.shirodemo;
 
+import com.amazonaws.services.s3.transfer.TransferManager;
 import com.cronutils.model.CronType;
 import com.cronutils.validation.Cron;
 import com.github.pagehelper.Page;
 
 import org.apache.bcel.classfile.ConstantPool;
 import org.apache.bcel.generic.ConstantPoolGen;
+import org.apache.calcite.avatica.remote.AvaticaHttpClientFactoryImpl;
 import org.apache.sshd.common.session.SessionContext;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.codehaus.jettison.json.JSONException;
@@ -15,7 +17,10 @@ import org.codehaus.plexus.archiver.zip.ZipUnArchiver;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.ho.yaml.Yaml;
 import org.ini4j.BasicOptionMap;
-
+import org.apache.calcite.avatica.BuiltInConnectionProperty;
+import org.apache.calcite.avatica.ConnectionConfigImpl;
+import org.apache.calcite.avatica.ConnectionConfig;
+import org.apache.calcite.avatica.remote.AvaticaHttpClientFactory;
 import com.github.pagehelper.PageHelper;
 import com.jd.sec_api.SecApi;
 
@@ -23,6 +28,7 @@ import graphql.parser.Parser;
 import liquibase.changelog.ChangeLogParameters;
 import liquibase.parser.core.xml.XMLChangeLogSAXParser;
 import liquibase.sdk.resource.MockResourceAccessor;
+import net.sourceforge.htmlunit.cyberneko.parsers.DOMParser;
 import ws.schild.jave.process.ProcessWrapper;
 
 import org.slf4j.ext.EventData;
@@ -40,7 +46,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 //import com.sun.jndi.rmi.registry.ReferenceWrapper;
 //import org.w3c.dom.Document;
 //import org.w3c.dom.NodeList;
-
+import jodd.http.HttpRequest;
 import java.io.BufferedReader;
 //conf import org.apache.hadoop.mapred.JobConf;
 //conf import org.apache.hadoop.mapred.JobHistory.JobInfo;
@@ -87,12 +93,16 @@ import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
 import org.xml.sax.InputSource;
 //import org.yaml.snakeyaml.Yaml;
+import org.xml.sax.SAXException;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.net.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -205,6 +215,47 @@ public class DemoController {
         //Config cfg = Config.loadFromStream(value);
         return "ok";
     }
+
+    @RequestMapping(path = "/CVE-2022-36364")
+    public String cve_2022_36364(String value) throws FileNotFoundException, IOException {
+        Properties props = new Properties();
+        props.setProperty(BuiltInConnectionProperty.HTTP_CLIENT_IMPL.name(),value); 
+        ConnectionConfig config = new ConnectionConfigImpl(props);
+        AvaticaHttpClientFactory httpClientFactory = new AvaticaHttpClientFactoryImpl();
+        httpClientFactory.getClient(new URL("http://localhost:8765"), config, null);
+        return "ok";
+    }
+    
+    @RequestMapping(path = "/CVE-2022-29631")
+    public String cve_2022_29631(String value) throws FileNotFoundException, IOException {
+        HttpRequest req = HttpRequest.get(value);
+        req.send();
+        return "ok";
+    }
+
+    @RequestMapping(path = "/CVE-2022-29546")
+    public String cve_2022_29546(String value) throws FileNotFoundException, IOException, SAXException {
+        DOMParser parse = new DOMParser();
+        parse.parse(value);
+        return "ok";
+    }
+
+    @RequestMapping(path = "/CVE-2022-31159")
+    public String cve_2022_31159(File value) throws FileNotFoundException, IOException, SAXException {
+        TransferManager tm = new TransferManager();
+        tm.downloadDirectory("bucketName", "keyPrefix",  value);
+        return "ok";
+    }
+
+    @RequestMapping(path = "/CVE-2022-31197")
+    public String cve_2022_31197(File value) throws FileNotFoundException, IOException, SAXException, SQLException {
+        Connection con = DriverManager.getConnection("url", "user", "pass");
+        Statement stmt = con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+        ResultSet rs = stmt.executeQuery("SELECT * FROM refresh_row_bad_ident");
+        rs.refreshRow();
+        return "ok";
+    }
+
 
     @PostMapping("/executeCommand")
     public void executeCommand(String userInput) {

@@ -130,7 +130,7 @@
         <dependency>
             <groupId> org.apache.calcite.avatica</groupId>
             <artifactId>avatica-core</artifactId>
-            <version>1.7.1</version>
+            <version>1.15.0</version>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.htmlunit</groupId>
@@ -143,9 +143,9 @@
             <version>5.7.0</version>
         </dependency>
         <dependency>
-            <groupId>om.amazonaws</groupId>
+            <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-s3</artifactId>
-            <version>1.12.260</version>
+            <version>1.11.792</version>
         </dependency>
         <dependency>
                 <groupId>org.codehaus.jackson</groupId>
