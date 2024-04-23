@@ -8,3 +8,5 @@ remoteServiceCaller
 
 isFullyAuthenticated
 isFullyAuthenticated
+forward:
+.shouldFilterAllDispatcherTypes(true)
