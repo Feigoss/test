@@ -248,10 +248,10 @@ public class DemoController {
     }
 
     @RequestMapping(path = "/CVE-2022-31197")
-    public String cve_2022_31197(File value) throws FileNotFoundException, IOException, SAXException, SQLException {
+    public String cve_2022_31197(String value) throws FileNotFoundException, IOException, SAXException, SQLException {
         Connection con = DriverManager.getConnection("url", "user", "pass");
         Statement stmt = con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
-        ResultSet rs = stmt.executeQuery("SELECT * FROM refresh_row_bad_ident");
+        ResultSet rs = stmt.executeQuery(value);
         rs.refreshRow();
         return "ok";
     }
