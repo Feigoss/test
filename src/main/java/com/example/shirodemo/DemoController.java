@@ -10,11 +10,15 @@ import org.apache.bcel.generic.ConstantPoolGen;
 import org.apache.calcite.avatica.remote.AvaticaHttpClientFactoryImpl;
 import org.apache.sshd.common.session.SessionContext;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
+import org.apache.xerces.xni.parser.XMLInputSource;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.codehaus.plexus.archiver.zip.ZipUnArchiver;
 //import org.apache.hadoop.util.Shell.ShellCommandExecutor;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.cyberneko.html.HTMLConfiguration;
+import org.cyberneko.html.HTMLScanner;
+import org.geotools.data.jdbc.datasource.JNDIDataSourceFactory;
 import org.ho.yaml.Yaml;
 import org.ini4j.BasicOptionMap;
 import org.apache.calcite.avatica.BuiltInConnectionProperty;
@@ -23,11 +27,14 @@ import org.apache.calcite.avatica.ConnectionConfig;
 import org.apache.calcite.avatica.remote.AvaticaHttpClientFactory;
 import com.github.pagehelper.PageHelper;
 import com.jd.sec_api.SecApi;
+import com.ruoyi.common.utils.poi.ExcelUtil;
 
 import graphql.parser.Parser;
 import liquibase.changelog.ChangeLogParameters;
 import liquibase.parser.core.xml.XMLChangeLogSAXParser;
 import liquibase.sdk.resource.MockResourceAccessor;
+//import net.sourceforge.htmlunit.cyberneko.HTMLConfiguration;
+//import net.sourceforge.htmlunit.cyberneko.HTMLScanner;
 import net.sourceforge.htmlunit.cyberneko.parsers.DOMParser;
 import ws.schild.jave.process.ProcessWrapper;
 
@@ -104,6 +111,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -255,6 +263,29 @@ public class DemoController {
         rs.refreshRow();
         return "ok";
     }
+
+    @RequestMapping(path = "/CVE-2022-24839")
+    public String cve_2022_23868(List value) throws FileNotFoundException, IOException, SAXException, SQLException {
+        ExcelUtil eu = new ExcelUtil(null);
+        eu.exportExcel(value, null);
+        return "ok";
+    }
+    @RequestMapping(path = "/CVE-2022-24818")
+    public String cve_2022_24818(Map value) throws FileNotFoundException, IOException, SAXException, SQLException {
+        JNDIDataSourceFactory jf = new JNDIDataSourceFactory();
+        jf.createNewDataSource(value);
+        return "ok";
+    }
+    @RequestMapping(path = "/CVE-2022-24839")
+    public String cve_2022_24839(XMLInputSource value) throws FileNotFoundException, IOException, SAXException, SQLException {
+        HTMLScanner hc = new HTMLScanner();
+        hc.setInputSource(value);
+        hc.scanDocument(true);
+        return "ok";
+    }
+
+
+
 
 
     @PostMapping("/executeCommand")
