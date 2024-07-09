@@ -9,6 +9,11 @@ import org.apache.bcel.classfile.ConstantPool;
 import org.apache.bcel.generic.ConstantPoolGen;
 import org.apache.calcite.avatica.remote.AvaticaHttpClientFactoryImpl;
 import org.apache.hadoop.fs.FileUtil;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.sshd.common.session.SessionContext;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.apache.xerces.xni.parser.XMLInputSource;
@@ -31,6 +36,10 @@ import com.jd.sec_api.SecApi;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 
 import graphql.parser.Parser;
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.JwtHandlerAdapter;
+import io.jsonwebtoken.Jwts;
 import liquibase.changelog.ChangeLogParameters;
 import liquibase.parser.core.xml.XMLChangeLogSAXParser;
 import liquibase.sdk.resource.MockResourceAccessor;
@@ -48,6 +57,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -134,9 +144,11 @@ import org.ttzero.excel.reader.ExcelReader;
 //CVE-2021-41269
 
 import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import javax.validation.constraints.NotNull;
 
 //CVE-2022-0265
 import com.hazelcast.config.Config;
@@ -144,6 +156,17 @@ import com.hazelcast.config.Config;
 @RestController
 public class DemoController {
 
+    @RequestMapping(path = "/jwt")
+    public String jwt(String value) throws FileNotFoundException, IOException {
+        Jwts.parserBuilder()
+                .setSigningKey("someBase64EncodedKey").build()
+                .parse(value, new JwtHandlerAdapter<Jwt<Header, String>>() {
+                    @Override
+                    public Jwt<Header, String> onPlaintextJwt(Jwt<Header, String> jwt) {
+                        return jwt;
+                    }
+                }); 
+    }
     @RequestMapping(path = "/CVE-2021-41269")
     public String cve_2021_41269(String value) throws FileNotFoundException, IOException {
     Job job = new Job();
@@ -565,6 +588,42 @@ public class DemoController {
         }
         return sb.toString();
     }
+    @GetMapping(value = "/curl")
+    @ResponseBody
+    public Integer callWebHook(@Valid @NotNull String callUrl, String token) {
+        return trigger(callUrl, token, null);
+    }
+    private Integer trigger(String callUrl, String token, Integer hookId) {
+        if (null == hookId) {
+            return 404;
+        }
+        String EVENT = "Push Hook";
+        StringBuilder sb = new StringBuilder();
+        HttpPost httpPost = new HttpPost(callUrl);
+        CloseableHttpResponse response = null;
+        int resultCode = 500;
+        long startMills = System.currentTimeMillis();
+        try {
+            httpPost.addHeader("Content-Type", "application/json;charset=UTF-8");
+            httpPost.addHeader("X-Gitlab-Event", EVENT);
+
+            CloseableHttpClient client = HttpClients.custom().create().build();
+            client.execute(httpPost);
+        } catch (Exception e) {
+            
+        } finally {
+            try {
+                if (null != response) {
+                    response.close();
+                }
+            } catch (IOException e) {
+               
+            }
+        }
+        return 1;
+    }
+
+
     public static void main(String[] args) throws URISyntaxException, MalformedURLException, UnsupportedEncodingException {
         System.out.println(DigestUtils.md5DigestAsHex(affixStr("Coding","test",1).getBytes()));
     }
