@@ -240,7 +240,16 @@
             <version>4.7.0</version> <!-- 使用低于 4.8.0 的版本以模拟漏洞 -->
         </dependency>
     </dependencies>
-
+    <dependency>
+        <groupId>com.jd.ssa</groupId>
+        <artifactId>oidc-client</artifactId>
+        <version>1.0.8-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+        <groupId>com.jd.common</groupId>
+        <artifactId>sso-uim-spring</artifactId> 
+        <version>1.2.3-jdsec-SNAPSHOT</version>
+    </dependency>
     <!--<repositories>
         <repository>
             <id>maven-restlet</id>
