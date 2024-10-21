@@ -361,9 +361,9 @@ public class DemoController {
         // 返回成功消息
         return ResponseEntity.ok("Archive extracted successfully.");
     }
-    public String deserializeYaml(@RequestBody String yamlInput) {
+    public String deserializeYaml(@RequestBody String yamlInput,String yamlInput1,String yamlInput2) {
         Yaml yaml = new Yaml();
-
+        yamlInput = yamlInput+yamlInput1;
         try {
             // 这里直接使用 Yaml#load 对传入的 YAML 字符串进行反序列化
             // 这是不安全的，因为它可以执行任意代码
