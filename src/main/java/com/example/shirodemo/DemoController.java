@@ -49,6 +49,7 @@ import net.sourceforge.htmlunit.cyberneko.parsers.DOMParser;
 import ws.schild.jave.process.ProcessWrapper;
 
 import org.slf4j.ext.EventData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -155,6 +156,9 @@ import com.hazelcast.config.Config;
 
 @RestController
 public class DemoController {
+
+    @Autowired
+    Second second;
 
     @RequestMapping(path = "/jwt")
     public String jwt(String value) throws FileNotFoundException, IOException {
@@ -374,12 +378,11 @@ public class DemoController {
         }
     }
     public String deserializeYaml1(@RequestBody String yamlInput,String yamlInput1,String yamlInput2) {
-        Yaml yaml = new Yaml();
         String yamlStr = yamlInput+yamlInput1;
         try {
             // 这里直接使用 Yaml#load 对传入的 YAML 字符串进行反序列化
             // 这是不安全的，因为它可以执行任意代码
-            Object result = yaml.load(yamlStr);
+            Object result = second.yml(yamlStr);
             return "Deserialized object: " + result;
         } catch (Exception e) {
             return "Exception during deserialization: " + e.getMessage();
