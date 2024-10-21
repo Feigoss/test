@@ -361,7 +361,6 @@ public class DemoController {
         // 返回成功消息
         return ResponseEntity.ok("Archive extracted successfully.");
     }
-    @PostMapping("/deserializeYaml")
     public String deserializeYaml(@RequestBody String yamlInput) {
         Yaml yaml = new Yaml();
 
