@@ -1,0 +1,11 @@
+---
+sourceLocationPrefix: D:\caopengfei11\Downloads\shiro-CVE-2022-32532
+baselineLinesOfCode: 456
+unicodeNewlines: false
+columnKind: utf16
+primaryLanguage: java
+creationMetadata:
+  sha: 09aa85c1d8f27243dfae0c8deea53d8b3ca954b3
+  cliVersion: 2.17.6
+  creationTime: 2024-07-03T03:12:07.450893200Z
+finalised: true

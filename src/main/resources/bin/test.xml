@@ -1,0 +1,10 @@
+<bean    id="springSSOInterceptor"  
+ 
+ 
+ class="com.jd.common.springmvc.interceptor.SpringSSOInterceptor">
+
+
+
+ <beanid="springSSOInterceptor"  
+ 
+  class="com.jd.ssa.oidc.client.interceptor.ErpSsoInterceptor">
