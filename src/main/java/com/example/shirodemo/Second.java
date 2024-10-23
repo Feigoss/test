@@ -7,4 +7,8 @@ public class Second {
         Yaml yaml = new Yaml();
         return Yaml.load(input);
     }
+    public  Object yml2(String input){
+        Yaml yaml = new Yaml();
+        return Yaml.load(input);
+    }
 }
