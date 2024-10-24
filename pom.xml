@@ -246,7 +246,7 @@
         </dependency>
         <dependency>
             <groupId>com.jd.common</groupId>
-            <artifactId>sso-uim-spring</artifactId> 
+            <artifactId>sso-uim-spring</artifactId>
             <version>1.2.3-jdsec-SNAPSHOT</version>
         </dependency>
     <!--<repositories>
